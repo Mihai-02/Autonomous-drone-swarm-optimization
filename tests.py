@@ -49,51 +49,6 @@ class ExperimentRunner:
         self.results['baseline'] = results
         self._save_results('baseline')
         self._plot_baseline(results)
-        
-    #def run_failure_recovery(self, trials=5):
-        # """Experiment 2: Failure Recovery"""
-        # print("\n" + "="*60)
-        # print("EXPERIMENT 2: Failure Recovery")
-        # print("="*60)
-        
-        # results = {'boustrophedon': [], 'inverse_aco': []}
-        
-        # for trial in range(trials):
-        #     print(f"\nTrial {trial+1}/{trials}")
-            
-        #     # Boustrophedon
-        #     print("  Running Boustrophedon with failure...")
-        #     sim_b = BoustrophedonSimulation(grid_size=100, num_drones=25, cell_divisions=5)
-        #     coverage_history_b = []
-            
-        #     while sim_b.coverage < 0.95 and sim_b.step_count < 10000:
-        #         sim_b.step()
-        #         coverage_history_b.append(sim_b.coverage)
-            
-        #     results['boustrophedon'].append({
-        #         'steps': sim_b.step_count,
-        #         'coverage_history': coverage_history_b,
-        #         'coverage_drop': coverage_history_b[399] - coverage_history_b[401] if len(coverage_history_b) > 401 else 0
-        #     })
-            
-        #     # Inverse ACO
-        #     print("  Running Inverse ACO with failure...")
-        #     sim_i = InverseACOSimulation(grid_size=100, num_drones=25)
-        #     coverage_history_i = []
-            
-        #     while sim_i.coverage < 0.95 and sim_i.step_count < 10000:
-        #         sim_i.step()
-        #         coverage_history_i.append(sim_i.coverage)
-            
-        #     results['inverse_aco'].append({
-        #         'steps': sim_i.step_count,
-        #         'coverage_history': coverage_history_i,
-        #         'coverage_drop': coverage_history_i[399] - coverage_history_i[401] if len(coverage_history_i) > 401 else 0
-        #     })
-        
-        # self.results['failure_recovery'] = results
-        # self._save_results('failure_recovery')
-        # self._plot_failure_recovery(results)
     
     def run_scalability_drones(self):
         """Experiment 3: Scalability (Drone Count)"""
@@ -226,39 +181,6 @@ class ExperimentRunner:
         print(f"Plot saved to {self.output_dir}/plots/baseline.png")
         plt.close()
     
-    # def _plot_failure_recovery(self, results):
-        # """Plot failure recovery curves"""
-        # plt.figure(figsize=(10, 6))
-        
-        # # Average coverage histories
-        # b_histories = [r['coverage_history'] for r in results['boustrophedon']]
-        # i_histories = [r['coverage_history'] for r in results['inverse_aco']]
-        
-        # # Pad to same length
-        # max_len = max(max(len(h) for h in b_histories), max(len(h) for h in i_histories))
-        
-        # # Plot around failure point (steps 300-600)
-        # window = slice(300, min(600, max_len))
-        
-        # for h in b_histories:
-        #     if len(h) > 300:
-        #         plt.plot(range(300, min(len(h), 600)), h[window], 'b-', alpha=0.3)
-        
-        # for h in i_histories:
-        #     if len(h) > 300:
-        #         plt.plot(range(300, min(len(h), 600)), h[window], 'r-', alpha=0.3)
-        
-        # plt.axvline(x=400, color='black', linestyle='--', linewidth=2, label='Failure Point')
-        # plt.xlabel('Step')
-        # plt.ylabel('Coverage')
-        # plt.title('Failure Recovery (50% Drones Lost at Step 400)')
-        # plt.legend(['Boustrophedon (trials)', 'Inverse ACO (trials)', 'Failure'])
-        # plt.grid(True, alpha=0.3)
-        
-        # plt.savefig(f'{self.output_dir}/plots/failure_recovery.png', dpi=300, bbox_inches='tight')
-        # print(f"Plot saved to {self.output_dir}/plots/failure_recovery.png")
-        # plt.close()
-    
     def _plot_scalability_drones(self, results):
         """Plot scalability vs drone count"""
         plt.figure(figsize=(10, 6))
@@ -335,8 +257,7 @@ class ExperimentRunner:
         print("="*60)
         
         # self.run_baseline(trials=5)       #DONE
-        #self.run_failure_recovery(trials=5)
-        #self.run_scalability_drones()
+        self.run_scalability_drones()
         self.run_scalability_grid()
         self.run_parameter_sweep()
         
